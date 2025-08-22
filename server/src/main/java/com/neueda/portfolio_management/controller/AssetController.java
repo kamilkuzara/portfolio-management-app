@@ -1,6 +1,7 @@
 package com.neueda.portfolio_management.controller;
 
 import com.neueda.portfolio_management.dto.AssetRequest;
+import com.neueda.portfolio_management.dto.AssetUpdateRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,10 @@ public class AssetController {
    @DeleteMapping("/{id}")
    public Asset deleteAsset(@PathVariable long id){
         return assetService.deleteAsset(id);
+   }
+
+   @PutMapping("/{id}")
+    public Asset updateAsset(@PathVariable long id, @Valid @RequestBody AssetUpdateRequest assetUpdateRequest){
+        return assetService.updateAsset(id, assetUpdateRequest);
    }
 }
