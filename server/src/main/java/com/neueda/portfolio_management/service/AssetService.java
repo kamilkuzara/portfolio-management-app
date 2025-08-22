@@ -10,4 +10,5 @@ public interface AssetService {
     public Asset getAssetById(Long id);
     public List<Asset> getAssetsByName(String name);
     public Asset createAsset(AssetRequest assetRequest);
+    public Asset deleteAsset(Long id);
 }

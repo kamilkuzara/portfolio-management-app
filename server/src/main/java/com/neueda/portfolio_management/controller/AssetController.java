@@ -37,9 +37,9 @@ public class AssetController {
    public Asset createAsset(@Valid @RequestBody AssetRequest assetRequest){
        return assetService.createAsset(assetRequest);
    }
-//
-//   @DeleteMapping("/{id}")
-//   public void deleteCustomer(@PathVariable int id){
-//    customerService.deleteCustomer(id);
-//   }
+
+   @DeleteMapping("/{id}")
+   public Asset deleteAsset(@PathVariable long id){
+        return assetService.deleteAsset(id);
+   }
 }

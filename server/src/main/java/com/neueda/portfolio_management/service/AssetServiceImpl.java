@@ -4,6 +4,7 @@ import com.neueda.portfolio_management.dto.AssetRequest;
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.repository.AssetRepository;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AssetServiceImpl implements AssetService{
     public Asset getAssetById(Long id){
         try {
 //            find the asset by id or return null if not found
+//            TODO: should probably raise an exception and return a 404 response
             return assetRepository.findById(id).orElse(null);
         }catch(IllegalArgumentException illegalArgumentException){ // when null id provided
             return null;
@@ -46,5 +48,18 @@ public class AssetServiceImpl implements AssetService{
         asset.setType(assetRequest.getType());
 
         return assetRepository.saveAndFlush(asset);
+    }
+
+    @Override
+    public Asset deleteAsset(Long id){
+        try {
+            Asset asset = assetRepository.findById(id).orElse(null);
+            assetRepository.deleteById(id);
+            return asset;
+        }catch(IllegalArgumentException e) { // when null is provided as id
+            return null;
+        }catch(OptimisticLockingFailureException e){ // supposedly thrown when there is no record in the database
+            return null;
+        }
     }
 }
