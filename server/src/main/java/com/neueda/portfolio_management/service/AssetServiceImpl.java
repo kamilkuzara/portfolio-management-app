@@ -16,10 +16,12 @@ public class AssetServiceImpl implements AssetService{
         this.assetRepository = assetRepository;
     }
 
+    @Override
     public List<Asset> getAllAssets(){
         return assetRepository.findAll();
     }
 
+    @Override
     public Asset getAssetById(Long id){
         try {
 //            find the asset by id or return null if not found
@@ -27,5 +29,10 @@ public class AssetServiceImpl implements AssetService{
         }catch(IllegalArgumentException illegalArgumentException){ // when null id provided
             return null;
         }
+    }
+
+    @Override
+    public List<Asset> getAssetsByName(String name){
+        return assetRepository.findAllByNameContainingIgnoreCase(name);
     }
 }

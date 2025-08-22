@@ -1,9 +1,6 @@
 package com.neueda.portfolio_management.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.service.AssetService;
@@ -27,6 +24,11 @@ public class AssetController {
     @GetMapping("/{id}")
     public Asset getAssetById(@PathVariable long id){
         return assetService.getAssetById(id);
+    }
+
+    @GetMapping(params = "name")
+    public List<Asset> getAssetsByName(@RequestParam String name){
+        return assetService.getAssetsByName(name);
     }
 //
 //   @PostMapping
