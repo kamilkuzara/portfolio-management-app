@@ -1,6 +1,7 @@
 package com.neueda.portfolio_management.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +24,10 @@ public class AssetController {
         return assetService.getAllAssets();
     }
 
-//    @GetMapping("/{id}")
-//    public Item getCustomer(@PathVariable int id){
-//        return customerService.getCustomer(id);
-//    }
+    @GetMapping("/{id}")
+    public Asset getAssetById(@PathVariable long id){
+        return assetService.getAssetById(id);
+    }
 //
 //   @PostMapping
 //   public void createCustomer(@RequestBody Customer customer){

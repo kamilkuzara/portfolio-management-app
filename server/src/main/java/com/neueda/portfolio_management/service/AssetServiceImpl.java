@@ -19,4 +19,13 @@ public class AssetServiceImpl implements AssetService{
     public List<Asset> getAllAssets(){
         return assetRepository.findAll();
     }
+
+    public Asset getAssetById(Long id){
+        try {
+//            find the asset by id or return null if not found
+            return assetRepository.findById(id).orElse(null);
+        }catch(IllegalArgumentException illegalArgumentException){ // when null id provided
+            return null;
+        }
+    }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AssetService {
     public List<Asset> getAllAssets();
+    public Asset getAssetById(Long id);
 }
