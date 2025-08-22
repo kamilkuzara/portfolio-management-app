@@ -68,7 +68,7 @@ class AssetServiceImplTest {
     }
 
 //    @Test
-//    @Disabled("Disabled temporarily because it fails for null id")
+//    Disabled temporarily because it fails for null id
 //    void testGetAssetById_NullId() {
 //        Asset result = assetService.getAssetById(null);
 //
