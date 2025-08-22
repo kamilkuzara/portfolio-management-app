@@ -1,5 +1,7 @@
 package com.neueda.portfolio_management.controller;
 
+import com.neueda.portfolio_management.dto.AssetRequest;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import com.neueda.portfolio_management.entity.Asset;
@@ -30,11 +32,11 @@ public class AssetController {
     public List<Asset> getAssetsByName(@RequestParam String name){
         return assetService.getAssetsByName(name);
     }
-//
-//   @PostMapping
-//   public void createCustomer(@RequestBody Customer customer){
-//       customerService.createCustomer(customer);
-//   }
+
+   @PostMapping
+   public Asset createAsset(@Valid @RequestBody AssetRequest assetRequest){
+       return assetService.createAsset(assetRequest);
+   }
 //
 //   @DeleteMapping("/{id}")
 //   public void deleteCustomer(@PathVariable int id){

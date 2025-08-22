@@ -1,5 +1,6 @@
 package com.neueda.portfolio_management.service;
 
+import com.neueda.portfolio_management.dto.AssetRequest;
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.repository.AssetRepository;
 import org.springframework.context.annotation.Profile;
@@ -34,5 +35,16 @@ public class AssetServiceImpl implements AssetService{
     @Override
     public List<Asset> getAssetsByName(String name){
         return assetRepository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public Asset createAsset(AssetRequest assetRequest){
+        Asset asset = new Asset();
+
+//        set all fields from the data provided in the request
+        asset.setName(assetRequest.getName());
+        asset.setType(assetRequest.getType());
+
+        return assetRepository.saveAndFlush(asset);
     }
 }
