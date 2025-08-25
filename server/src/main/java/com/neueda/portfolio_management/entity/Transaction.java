@@ -1,5 +1,6 @@
 package com.neueda.portfolio_management.entity;
 
+import com.neueda.portfolio_management.converter.TransactionTypeConverter;
 import com.neueda.portfolio_management.enums.TransactionType;
 import jakarta.persistence.*;
 
@@ -9,7 +10,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = TransactionTypeConverter.class) // optional if autoApply = true
     private TransactionType type;
 
     @ManyToOne
