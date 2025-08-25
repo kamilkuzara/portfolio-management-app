@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TransactionService {
     public List<Transaction> getAllTransactions();
+    public List<Transaction> getTransactionsByAsset(String asset);
 }

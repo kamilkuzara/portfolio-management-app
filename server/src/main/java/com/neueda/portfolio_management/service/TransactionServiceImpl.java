@@ -20,4 +20,9 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> getAllTransactions(){
         return transactionRepository.findAll();
     }
+
+    @Override
+    public List<Transaction> getTransactionsByAsset(String asset){
+        return transactionRepository.findAllByAssetNameIgnoreCase(asset);
+    }
 }
