@@ -1,6 +1,7 @@
 package com.neueda.portfolio_management.service;
 
 import com.neueda.portfolio_management.dto.AssetRequest;
+import com.neueda.portfolio_management.dto.AssetUpdateRequest;
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.repository.AssetRepository;
 import org.springframework.context.annotation.Profile;
@@ -8,6 +9,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 //@Profile("db")
@@ -61,5 +63,24 @@ public class AssetServiceImpl implements AssetService{
         }catch(OptimisticLockingFailureException e){ // supposedly thrown when there is no record in the database
             return null;
         }
+    }
+
+    @Override
+    public Asset updateAsset(Long id, AssetUpdateRequest assetUpdateRequest){
+        Optional<Asset> assetOptional = assetRepository.findById(id);
+
+//        if no record in the database to update
+        if(!assetOptional.isPresent())
+            return null;
+
+        Asset asset = assetOptional.get();
+
+//        update the fields only if provided in the query
+        if(assetUpdateRequest.getName() != null)
+            asset.setName(assetUpdateRequest.getName());
+        if(assetUpdateRequest.getType() != null)
+            asset.setType(assetUpdateRequest.getType());
+
+        return assetRepository.saveAndFlush(asset);
     }
 }
