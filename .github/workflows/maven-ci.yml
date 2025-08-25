@@ -1,0 +1,28 @@
+name: Maven CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest  # or ubuntu-latest; either works
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 22
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '22'
+
+      - name: Spotless check
+        working-directory: server
+        run: mvn -B spotless:check
+
+      - name: Run tests
+        working-directory: server
+        run: mvn -B -DskipITs clean test
