@@ -1,6 +1,4 @@
-package com.neueda.portfolio_management;
-
-import com.neueda.portfolio_management.service.AssetServiceImpl;
+package com.neueda.portfolio_management.service;
 
 import com.neueda.portfolio_management.dto.AssetRequest;
 import com.neueda.portfolio_management.entity.Asset;
