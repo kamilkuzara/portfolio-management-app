@@ -31,8 +31,8 @@ class AssetServiceTest {
 
     @Test
     void testGetAllAssets() {
-        Asset asset1 = new Asset(1L, "Gold", "commodity");
-        Asset asset2 = new Asset(2L, "Silver", "commodity");
+        Asset asset1 = new Asset(1L, "Gold", "commodity", 150.5);
+        Asset asset2 = new Asset(2L, "Silver", "commodity",  25.0);
 
         when(assetRepository.findAll()).thenReturn(Arrays.asList(asset1, asset2));
 
@@ -44,7 +44,7 @@ class AssetServiceTest {
 
     @Test
     void testGetAssetById_Found() {
-        Asset asset = new Asset(1L, "Gold", "commodity");
+        Asset asset = new Asset(1L, "Gold", "commodity", 150.5);
 
         when(assetRepository.findById(1L)).thenReturn(Optional.of(asset));
 
@@ -60,8 +60,9 @@ class AssetServiceTest {
         AssetRequest request = new AssetRequest();
         request.setName("Gold");
         request.setType("commodity");
+        request.setQuantity(150.5);
 
-        Asset savedAsset = new Asset(1L, "Gold", "commodity");
+        Asset savedAsset = new Asset(1L, "Gold", "commodity", 150.5);
 
         when(assetRepository.saveAndFlush(any(Asset.class))).thenReturn(savedAsset);
 
@@ -70,6 +71,7 @@ class AssetServiceTest {
         assertNotNull(result);
         assertEquals("Gold", result.getName());
         assertEquals("commodity", result.getType());
+        assertEquals(150.5, result.getQuantity());
         verify(assetRepository, times(1)).saveAndFlush(any(Asset.class));
     }
 }

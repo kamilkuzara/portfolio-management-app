@@ -33,8 +33,8 @@ class AssetServiceImplTest {
 
     @Test
     void testGetAllAssets() {
-        Asset asset1 = new Asset(1L, "Stock A", "Equity");
-        Asset asset2 = new Asset(2L, "Bond B", "Fixed Income");
+        Asset asset1 = new Asset(1L, "Stock A", "Equity", 150.5);
+        Asset asset2 = new Asset(2L, "Bond B", "Fixed Income", 25.0);
 
         when(assetRepository.findAll()).thenReturn(Arrays.asList(asset1, asset2));
 
@@ -46,7 +46,7 @@ class AssetServiceImplTest {
 
     @Test
     void testGetAssetById_Found() {
-        Asset asset = new Asset(1L, "Stock A", "Equity");
+        Asset asset = new Asset(1L, "Stock A", "Equity", 150.5);
 
         when(assetRepository.findById(1L)).thenReturn(Optional.of(asset));
 
@@ -80,8 +80,9 @@ class AssetServiceImplTest {
         AssetRequest request = new AssetRequest();
         request.setName("Stock A");
         request.setType("Equity");
+        request.setQuantity(150.5);
 
-        Asset savedAsset = new Asset(1L, "Stock A", "Equity");
+        Asset savedAsset = new Asset(1L, "Stock A", "Equity", 150.5);
 
         when(assetRepository.saveAndFlush(any(Asset.class))).thenReturn(savedAsset);
 
@@ -90,6 +91,7 @@ class AssetServiceImplTest {
         assertNotNull(result);
         assertEquals("Stock A", result.getName());
         assertEquals("Equity", result.getType());
+        assertEquals(150.5, result.getQuantity(), 0);
         verify(assetRepository, times(1)).saveAndFlush(any(Asset.class));
     }
 }

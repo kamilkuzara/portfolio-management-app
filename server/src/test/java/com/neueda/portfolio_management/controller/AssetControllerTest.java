@@ -42,8 +42,8 @@ class AssetControllerTest {
     @Test
     void testGetAllAssets() throws Exception {
         List<Asset> assets = Arrays.asList(
-                new Asset(1L, "Gold", "commodity"),
-                new Asset(2L, "Silver", "commodity")
+                new Asset(1L, "Gold", "commodity", 150.5),
+                new Asset(2L, "Silver", "commodity",  25.0)
         );
 
         when(assetService.getAllAssets()).thenReturn(assets);
@@ -59,21 +59,22 @@ class AssetControllerTest {
 
     @Test
     void testGetAssetById() throws Exception {
-        Asset asset = new Asset(1L, "Gold", "commodity");
+        Asset asset = new Asset(1L, "Gold", "commodity", 150.5);
 
         when(assetService.getAssetById(1L)).thenReturn(asset);
 
         mockMvc.perform(get("/assets/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Gold"))
-                .andExpect(jsonPath("$.type").value("commodity"));
+                .andExpect(jsonPath("$.type").value("commodity"))
+                .andExpect(jsonPath("$.quantity").value(150.5));
 
         verify(assetService, times(1)).getAssetById(1L);
     }
 
     @Test
     void testGetAssetsByName() throws Exception {
-        List<Asset> assets = List.of(new Asset(1L, "Gold", "commodity"));
+        List<Asset> assets = List.of(new Asset(1L, "Gold", "commodity", 150.5));
 
         when(assetService.getAssetsByName("gold")).thenReturn(assets);
 
@@ -90,8 +91,9 @@ class AssetControllerTest {
         AssetRequest request = new AssetRequest();
         request.setName("Gold");
         request.setType("commodity");
+        request.setQuantity(150.5);
 
-        Asset savedAsset = new Asset(1L, "Gold", "commodity");
+        Asset savedAsset = new Asset(1L, "Gold", "commodity", 150.5);
 
         when(assetService.createAsset(any(AssetRequest.class))).thenReturn(savedAsset);
 
@@ -100,7 +102,8 @@ class AssetControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Gold"))
-                .andExpect(jsonPath("$.type").value("commodity"));
+                .andExpect(jsonPath("$.type").value("commodity"))
+                .andExpect(jsonPath("$.quantity").value(150.5));
 
         verify(assetService, times(1)).createAsset(any(AssetRequest.class));
     }

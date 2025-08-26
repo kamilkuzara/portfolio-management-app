@@ -48,6 +48,7 @@ public class AssetServiceImpl implements AssetService{
 //        set all fields from the data provided in the request
         asset.setName(assetRequest.getName());
         asset.setType(assetRequest.getType());
+        asset.setQuantity(assetRequest.getQuantity());
 
         return assetRepository.saveAndFlush(asset);
     }
@@ -80,6 +81,8 @@ public class AssetServiceImpl implements AssetService{
             asset.setName(assetUpdateRequest.getName());
         if(assetUpdateRequest.getType() != null)
             asset.setType(assetUpdateRequest.getType());
+        if(assetUpdateRequest.getQuantity() != null)
+            asset.setQuantity(assetUpdateRequest.getQuantity());
 
         return assetRepository.saveAndFlush(asset);
     }

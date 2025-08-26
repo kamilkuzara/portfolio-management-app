@@ -13,11 +13,13 @@ public class Asset {
 
     String name;
     String type;
+    Double quantity;
 
-    public Asset(Long id, String name, String type) {
+    public Asset(Long id, String name, String type, Double quantity) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.quantity = quantity;
     }
 
     public Asset() {
@@ -45,5 +47,13 @@ public class Asset {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 }
