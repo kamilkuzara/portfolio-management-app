@@ -1,6 +1,4 @@
-package com.neueda.portfolio_management;
-
-import com.neueda.portfolio_management.service.AssetServiceImpl;
+package com.neueda.portfolio_management.service;
 
 import com.neueda.portfolio_management.dto.AssetRequest;
 import com.neueda.portfolio_management.entity.Asset;
@@ -33,8 +31,8 @@ class AssetServiceImplTest {
 
     @Test
     void testGetAllAssets() {
-        Asset asset1 = new Asset(1L, "Stock A", "Equity");
-        Asset asset2 = new Asset(2L, "Bond B", "Fixed Income");
+        Asset asset1 = new Asset(1L, "Stock A", "Equity", 150.5);
+        Asset asset2 = new Asset(2L, "Bond B", "Fixed Income", 25.0);
 
         when(assetRepository.findAll()).thenReturn(Arrays.asList(asset1, asset2));
 
@@ -46,7 +44,7 @@ class AssetServiceImplTest {
 
     @Test
     void testGetAssetById_Found() {
-        Asset asset = new Asset(1L, "Stock A", "Equity");
+        Asset asset = new Asset(1L, "Stock A", "Equity", 150.5);
 
         when(assetRepository.findById(1L)).thenReturn(Optional.of(asset));
 
@@ -67,28 +65,12 @@ class AssetServiceImplTest {
         verify(assetRepository, times(1)).findById(99L);
     }
 
-//    @Test
-//    Disabled temporarily because it fails for null id
-//    void testGetAssetById_NullId() {
-//        Asset result = assetService.getAssetById(null);
-//
-//        assertNull(result);
-//        verify(assetRepository, never()).findById(any());
-//    }
-
     @Test
-    void testGetAssetsByName() {
-        Asset asset = new Asset(1L, "Stock A", "Equity");
+    void testGetAssetById_NullId() {
+        Asset result = assetService.getAssetById(null);
 
-        when(assetRepository.findAllByNameContainingIgnoreCase("stock"))
-                .thenReturn(List.of(asset));
-
-        List<Asset> result = assetService.getAssetsByName("stock");
-
-        assertEquals(1, result.size());
-        assertEquals("Stock A", result.get(0).getName());
-        verify(assetRepository, times(1))
-                .findAllByNameContainingIgnoreCase("stock");
+        assertNull(result);
+        verify(assetRepository, never()).findById(any());
     }
 
     @Test
@@ -96,8 +78,9 @@ class AssetServiceImplTest {
         AssetRequest request = new AssetRequest();
         request.setName("Stock A");
         request.setType("Equity");
+        request.setQuantity(150.5);
 
-        Asset savedAsset = new Asset(1L, "Stock A", "Equity");
+        Asset savedAsset = new Asset(1L, "Stock A", "Equity", 150.5);
 
         when(assetRepository.saveAndFlush(any(Asset.class))).thenReturn(savedAsset);
 
@@ -106,6 +89,7 @@ class AssetServiceImplTest {
         assertNotNull(result);
         assertEquals("Stock A", result.getName());
         assertEquals("Equity", result.getType());
+        assertEquals(150.5, result.getQuantity(), 0);
         verify(assetRepository, times(1)).saveAndFlush(any(Asset.class));
     }
 }

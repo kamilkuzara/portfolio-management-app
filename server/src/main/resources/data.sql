@@ -1,5 +1,10 @@
-insert into asset (NAME, TYPE)
+insert into asset (NAME, TYPE, QUANTITY)
 values
-    ('Gold', 'commodity'),
-    ('Silver', 'commodity'),
-    ('Appl', 'stock');
+    ('Gold', 'commodity', 230),
+    ('Silver', 'commodity', 45.5),
+    ('Appl', 'stock', 333.333);
+
+insert into transaction (DATE, TYPE, ASSET, QUANTITY, PRICE_PER_UNIT_INUSD)
+values
+    ('23-12-2024', 'BuY', 1, 100, 1250),
+    ('12-09-2025', 'SELl', 2, 50, 560);

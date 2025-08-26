@@ -2,6 +2,8 @@ package com.neueda.portfolio_management.dto;
 
 public class AssetUpdateRequest {
     private String name;
+    private String type;
+    private Double quantity;
 
     public String getName() {
         return name;
@@ -19,5 +21,11 @@ public class AssetUpdateRequest {
         this.type = type;
     }
 
-    private String type;
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
 }
