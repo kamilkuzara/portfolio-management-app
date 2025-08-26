@@ -38,13 +38,14 @@ public class TransactionServiceImplTest {
     public void getTransactionsByAsset_delegatesToRepository_withExactParam() {
         String assetName = "Bitcoin";
         Transaction t = new Transaction();
-        when(repository.findAllByAssetNameIgnoreCase(assetName)).thenReturn(Arrays.asList(t));
+        when(repository.findAllByAssetNameIgnoreCaseOrderByDateAsc(assetName))
+                .thenReturn(Arrays.asList(t));
 
         List<Transaction> res = service.getTransactionsByAsset(assetName);
         assertEquals(1, res.size());
 
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(repository).findAllByAssetNameIgnoreCase(captor.capture());
+        verify(repository).findAllByAssetNameIgnoreCaseOrderByDateAsc(captor.capture());
         assertEquals(assetName, captor.getValue());
     }
 }
