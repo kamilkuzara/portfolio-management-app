@@ -78,6 +78,7 @@ class AssetServiceImplTest {
         AssetRequest request = new AssetRequest();
         request.setName("Stock A");
         request.setType("Equity");
+        request.setQuantity(150.5);
 
         Asset savedAsset = new Asset(1L, "Stock A", "Equity", 150.5);
 
