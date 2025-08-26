@@ -3,10 +3,8 @@ package com.neueda.portfolio_management.controller;
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.entity.Transaction;
 import com.neueda.portfolio_management.service.TransactionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +26,9 @@ public class TransactionController {
     public List<Transaction> getAllTransactionsByAsset(@RequestParam String asset) {
         return transactionService.getTransactionsByAsset(asset);
     }
+
+//    @PostMapping
+//    public Transaction createTransaction(@Valid @RequestBody TransactionRequest transactionRequest) {
+//        return transactionService.createTransaction(transactionRequest);
+//    }
 }

@@ -4,6 +4,7 @@ import com.neueda.portfolio_management.enums.TransactionType;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,12 +13,12 @@ public class TransactionTest {
     @Test
     public void constructorAndGetters_shouldReturnValues() {
         Asset asset = new Asset(); // ...existing code... (use default constructor from project)
-        Transaction tx = new Transaction(1L, TransactionType.values()[0], asset, "2023-01-01", 100L, 12.34);
+        Transaction tx = new Transaction(1L, TransactionType.values()[0], asset, LocalDate.parse("2023-01-01"), 100L, 12.34);
 
         assertEquals(1L, tx.getId());
         assertEquals(TransactionType.values()[0], tx.getType());
         assertSame(asset, tx.getAsset());
-        assertEquals("2023-01-01", tx.getDate());
+        assertEquals(LocalDate.parse("2023-01-01"), tx.getDate());
         assertEquals(100L, tx.getQuantity());
         // use reflection because the public getter/setter for price may not exist in the entity
         assertEquals(Double.valueOf(12.34), getPrice(tx));
@@ -38,8 +39,8 @@ public class TransactionTest {
         tx.setAsset(asset);
         assertSame(asset, tx.getAsset());
 
-        tx.setDate("2020-12-31");
-        assertEquals("2020-12-31", tx.getDate());
+        tx.setDate(LocalDate.parse("2020-12-31"));
+        assertEquals(LocalDate.parse("2020-12-31"), tx.getDate());
 
         tx.setQuantity(250L);
         assertEquals(250L, tx.getQuantity());
