@@ -1,8 +1,8 @@
 insert into asset (NAME, TYPE, QUANTITY)
 values
-    ('Gold', 'commodity', 230),
-    ('Silver', 'commodity', 45.5),
-    ('Appl', 'stock', 333.333);
+    ('GOOGL', 'stock', 230),
+    ('MSFT', 'stock', 45.5),
+    ('AAPL', 'stock', 333.333);
 
 insert into transaction (DATE, TYPE, ASSET, QUANTITY, PRICE_PER_UNIT)
 values
