@@ -70,9 +70,7 @@ public class TransactionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].id").value(10))
-                .andExpect(jsonPath("$[0].date[0]").value(2023)) // year
-                .andExpect(jsonPath("$[0].date[1]").value(2)) // month
-                .andExpect(jsonPath("$[0].date[2]").value(2)) // day
+                .andExpect(jsonPath("$[0].date").value("2023-02-02"))
                 .andExpect(jsonPath("$[0].quantity").value(50))
                 // enum serialized as string
                 .andExpect(jsonPath("$[0].type").value(TransactionType.values()[0].name()))
