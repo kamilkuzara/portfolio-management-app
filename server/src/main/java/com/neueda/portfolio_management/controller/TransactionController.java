@@ -1,5 +1,6 @@
 package com.neueda.portfolio_management.controller;
 
+import com.neueda.portfolio_management.dto.TransactionRequest;
 import com.neueda.portfolio_management.entity.Asset;
 import com.neueda.portfolio_management.entity.Transaction;
 import com.neueda.portfolio_management.service.TransactionService;
@@ -27,8 +28,8 @@ public class TransactionController {
         return transactionService.getTransactionsByAsset(asset);
     }
 
-//    @PostMapping
-//    public Transaction createTransaction(@Valid @RequestBody TransactionRequest transactionRequest) {
-//        return transactionService.createTransaction(transactionRequest);
-//    }
+    @PostMapping
+    public Transaction createTransaction(@Valid @RequestBody TransactionRequest transactionRequest) {
+        return transactionService.createTransaction(transactionRequest);
+    }
 }
