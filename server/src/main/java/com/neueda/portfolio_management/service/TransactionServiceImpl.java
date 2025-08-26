@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<Transaction> getTransactionsByAsset(String asset){
-        return transactionRepository.findAllByAssetNameIgnoreCase(asset);
+        return transactionRepository.findAllByAssetNameIgnoreCaseOrderByDateAsc(asset);
     }
 
     @Override
