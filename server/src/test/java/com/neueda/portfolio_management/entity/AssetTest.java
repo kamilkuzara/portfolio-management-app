@@ -36,16 +36,17 @@ public class AssetTest {
 
     @Test
     public void constructorWithFields_andGetters_work() throws Exception {
-        // other tests in the suite construct Asset(1L, "Name", "Type"), assert that API
-        Constructor<Asset> ctor = Asset.class.getDeclaredConstructor(Long.class, String.class, String.class);
-        assertNotNull(ctor, "Asset should have a (Long, String, String) constructor");
+        // other tests in the suite construct Asset(1L, "Name", "Type", "Quantity"), assert that API
+        Constructor<Asset> ctor = Asset.class.getDeclaredConstructor(Long.class, String.class, String.class, Double.class);
+        assertNotNull(ctor, "Asset should have a (Long, String, String, Double) constructor");
         ctor.setAccessible(true);
-        Asset asset = ctor.newInstance(1L, "Gold", "commodity");
+        Asset asset = ctor.newInstance(1L, "Gold", "commodity", 150.5);
         assertNotNull(asset);
         // common getters used across service/controller tests
         assertEquals(1L, asset.getId());
         assertEquals("Gold", asset.getName());
         assertEquals("commodity", asset.getType());
+        assertEquals(150.5, asset.getQuantity());
     }
 
     @Test
@@ -54,8 +55,10 @@ public class AssetTest {
         asset.setId(42L);
         asset.setName("Silver");
         asset.setType("commodity");
+        asset.setQuantity(150.5);
         assertEquals(42L, asset.getId());
         assertEquals("Silver", asset.getName());
         assertEquals("commodity", asset.getType());
+        assertEquals(150.5, asset.getQuantity());
     }
 }

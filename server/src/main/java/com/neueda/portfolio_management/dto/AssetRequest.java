@@ -1,6 +1,7 @@
 package com.neueda.portfolio_management.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class AssetRequest {
     @NotBlank(message = "Name of the asset missing")
@@ -8,6 +9,9 @@ public class AssetRequest {
 
     @NotBlank(message = "Type of the asset missing")
     private String type;
+
+    @NotNull(message = "Quantity of the asset missing")
+    private Double quantity;
 
     public String getName() {
         return name;
@@ -23,5 +27,13 @@ public class AssetRequest {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 }

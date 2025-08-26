@@ -61,7 +61,7 @@ public class TransactionControllerTest {
     // New: verify JSON payload contains expected fields including nested asset and enum type
     @Test
     public void getAllTransactions_returnsDetailedJson() throws Exception {
-        Asset asset = new Asset(11L, "BTC", "crypto");
+        Asset asset = new Asset(11L, "BTC", "crypto", 150.5);
         Transaction tx = new Transaction(10L, TransactionType.values()[0], asset, "2023-02-02", 50L, 1234.5);
         when(transactionService.getAllTransactions()).thenReturn(Arrays.asList(tx));
 
@@ -76,7 +76,8 @@ public class TransactionControllerTest {
                 // nested asset fields
                 .andExpect(jsonPath("$[0].asset.id").value(11))
                 .andExpect(jsonPath("$[0].asset.name").value("BTC"))
-                .andExpect(jsonPath("$[0].asset.type").value("crypto"));
+                .andExpect(jsonPath("$[0].asset.type").value("crypto"))
+                .andExpect(jsonPath("$[0].asset.quantity").value(150.5));
 
         verify(transactionService, times(1)).getAllTransactions();
     }
