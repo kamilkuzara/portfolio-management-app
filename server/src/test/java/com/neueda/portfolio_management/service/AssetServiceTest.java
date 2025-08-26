@@ -34,12 +34,12 @@ class AssetServiceTest {
         Asset asset1 = new Asset(1L, "Gold", "commodity", 150.5);
         Asset asset2 = new Asset(2L, "Silver", "commodity",  25.0);
 
-        when(assetRepository.findAll()).thenReturn(Arrays.asList(asset1, asset2));
+        when(assetRepository.findAllByQuantityGreaterThan(0.0)).thenReturn(Arrays.asList(asset1, asset2));
 
         List<Asset> result = assetService.getAllAssets();
 
         assertEquals(2, result.size());
-        verify(assetRepository, times(1)).findAll();
+        verify(assetRepository, times(1)).findAllByQuantityGreaterThan(0.0);
     }
 
     @Test

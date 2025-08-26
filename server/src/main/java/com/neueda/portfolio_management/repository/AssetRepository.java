@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AssetRepository extends JpaRepository<Asset, Long> {
-    public List<Asset> findAllByNameContainingIgnoreCase(String name);
+    public List<Asset> findAll();
+    public List<Asset> findAllByQuantityGreaterThan(Double quantity);
+    public List<Asset> findAllByNameContainingIgnoreCaseAndQuantityGreaterThan(String name, Double quantity);
     public Optional<Asset> findByName(String name);
 }

@@ -29,16 +29,16 @@ public class TransactionServiceImplTest {
         service = new TransactionServiceImpl(transactionRepository, assetRepository);
     }
 
-//    @Test
-//    public void getAllTransactions_delegatesToRepository() {
-//        Transaction t1 = new Transaction(1L, TransactionType.values()[0], new Asset(), LocalDate.parse("2023-01-01"), 100.0, 12.34);
-//        Transaction t2 = new Transaction(1L, TransactionType.values()[0], new Asset(), LocalDate.parse("2023-01-01"), 100.0, 12.34);
-//        when(transactionRepository.findAllByOrderByDateAsc()).thenReturn(Arrays.asList(t1, t2));
-//
-//        List<Transaction> res = service.getAllTransactions();
-//        assertEquals(2, res.size());
-//        verify(transactionRepository, times(1)).findAll();
-//    }
+    @Test
+    public void getAllTransactions_delegatesToRepository() {
+        Transaction t1 = new Transaction(1L, TransactionType.values()[0], new Asset(), LocalDate.parse("2023-01-01"), 100.0, 12.34);
+        Transaction t2 = new Transaction(1L, TransactionType.values()[0], new Asset(), LocalDate.parse("2023-01-01"), 100.0, 12.34);
+        when(transactionRepository.findAllByOrderByDateAsc()).thenReturn(Arrays.asList(t1, t2));
+
+        List<Transaction> res = service.getAllTransactions();
+        assertEquals(2, res.size());
+        verify(transactionRepository, times(1)).findAllByOrderByDateAsc();
+    }
 
     @Test
     public void getTransactionsByAsset_delegatesToRepository_withExactParam() {
