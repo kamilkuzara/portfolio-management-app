@@ -25,12 +25,13 @@ public class AssetServiceImpl implements AssetService {
 
   @Override
   public Asset getAssetById(Long id) {
+    if (id == null) {
+        return null; // Return null immediately if ID is null
+    }
     try {
-      //            find the asset by id or return null if not found
-      //            TODO: should probably raise an exception and return a 404 response
-      return assetRepository.findById(id).orElse(null);
-    } catch (IllegalArgumentException illegalArgumentException) { // when null id provided
-      return null;
+        return assetRepository.findById(id).orElse(null);
+    } catch (IllegalArgumentException illegalArgumentException) {
+        return null;
     }
   }
 
@@ -58,9 +59,7 @@ public class AssetServiceImpl implements AssetService {
       return asset;
     } catch (IllegalArgumentException e) { // when null is provided as id
       return null;
-    } catch (
-        OptimisticLockingFailureException
-            e) { // supposedly thrown when there is no record in the database
+    } catch (OptimisticLockingFailureException e) { // supposedly thrown when there is no record in the database
       return null;
     }
   }

@@ -1,0 +1,31 @@
+package com.neueda.portfolio_management.controller;
+
+import com.neueda.portfolio_management.entity.Asset;
+import com.neueda.portfolio_management.entity.Transaction;
+import com.neueda.portfolio_management.service.TransactionService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/transactions")
+public class TransactionController {
+    private TransactionService transactionService;
+
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
+    @GetMapping
+    public List<Transaction> getAllTransactions() {
+        return transactionService.getAllTransactions();
+    }
+
+    @GetMapping(params = "asset")
+    public List<Transaction> getAllTransactionsByAsset(@RequestParam String asset) {
+        return transactionService.getTransactionsByAsset(asset);
+    }
+}
