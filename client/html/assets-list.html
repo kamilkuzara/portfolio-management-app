@@ -12,10 +12,10 @@
   <link rel="stylesheet" href="../assets/css/demo.css" />
   <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
   <script src="../assets/vendor/js/helpers.js"></script>
   <script src="../assets/js/config.js"></script>
 
@@ -52,9 +52,6 @@
     }
     .autocomplete-suggestion:hover {
       background-color: #f0f0f0;
-    }
-    .chart-card {
-      margin-top: 30px;
     }
   </style>
 </head>
@@ -127,7 +124,6 @@
                     <th>Date</th>
                     <th>Type</th>
                     <th>Trade Type</th>
-                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody id="transactions-body"></tbody>
@@ -175,7 +171,7 @@
                   <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" for="price">Price</label>
                     <div class="col-sm-10 d-flex">
-                      <input type="number" step="0.000001" class="form-control" id="price" placeholder="Insert price" />
+                      <input type="number" step="0.000001" class="form-control" id="price" placeholder="Insert price" required />
                       <button type="button" id="getPriceBtn" class="btn btn-outline-secondary ms-2">Get Current Price</button>
                     </div>
                   </div>
@@ -298,14 +294,11 @@ async function loadTransactions() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${trx.asset.name}</td>
-        <td>${trx.price.toFixed(2)}</td>
+        <td>${trx.pricePerUnit.toFixed(2)}</td>
         <td>${trx.quantity}</td>
         <td>${trx.date}</td>
         <td>${trx.asset.type}</td>
         <td>${trx.type}</td>
-        <td>
-          <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${trx.id})">Delete</button>
-        </td>
       `;
       tbody.appendChild(row);
     });
@@ -315,19 +308,7 @@ async function loadTransactions() {
   }
 }
 
-// --- Delete transaction ---
-async function deleteTransaction(id) {
-  if (!confirm("Are you sure you want to delete this transaction?")) return;
-  try {
-    await axios.delete(`http://localhost:8080/transactions/${id}`);
-    loadTransactions();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to delete transaction.");
-  }
-}
-
-// --- Add transaction and asset ---
+// --- Add transaction ---
 document.getElementById("transactionForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!selectedAsset) return alert("Select a valid asset from suggestions.");
@@ -338,57 +319,43 @@ document.getElementById("transactionForm").addEventListener("submit", async (e) 
   const date = document.getElementById("date").value;
 
   try {
-    // Add or get the asset first
-    let assetResponse = await axios.post("http://localhost:8080/assets", {
-      name: selectedAsset.instrument_name,
-      type: selectedAsset.instrument_type,
-      quantity: quantity
-    });
-    const asset = assetResponse.data;
+    // Step 1: Check if asset exists
+    let assetRes = await axios.get(`http://localhost:8080/assets?symbol=${selectedAsset.symbol}`);
+    let asset;
+    if (assetRes.data.length > 0) {
+      asset = assetRes.data[0];
+    } else {
+      // Step 2: Create asset if missing
+      const createRes = await axios.post("http://localhost:8080/assets", {
+        name: selectedAsset.instrument_name,
+        type: selectedAsset.instrument_type,
+        quantity: quantity
+      });
+      asset = createRes.data;
+    }
 
-    // Add the transaction
+    // Step 3: Post transaction (only asset id)
     await axios.post("http://localhost:8080/transactions", {
       type: tradeType,
       quantity: quantity,
-      price: price,
+      pricePerUnit: price,
       date: date,
-      asset: {
-        id: asset.id,
-        name: asset.name,
-        type: asset.type
-      }
+      assetId: asset.id
     });
 
-    alert("Transaction and asset added!");
+    alert("Transaction added!");
     document.getElementById("transactionForm").reset();
     assetTypeInput.value = "";
+    selectedAsset = null;
     loadTransactions();
-
   } catch (err) {
     console.error(err);
-    alert("Failed to add transaction or asset.");
+    alert("Failed to add transaction. Check console for details.");
   }
 });
 
-// --- Top movers ---
-async function loadTopMovers() {
-  try {
-    const res = await axios.get("/api/assets/top-movers");
-    const slider = document.getElementById("topMoversSlider");
-    slider.innerHTML = "";
-    res.data.forEach(asset => {
-      const div = document.createElement("div");
-      div.className = "tickerSwiper swiper-slide";
-      div.textContent = `${asset.symbol} ${asset.price.toFixed(2)} USD`;
-      slider.appendChild(div);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
-
+// Load initial transactions
 loadTransactions();
-loadTopMovers();
 </script>
 </body>
 </html>
