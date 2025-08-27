@@ -21,7 +21,7 @@ public class AssetServiceImpl implements AssetService{
 
     @Override
     public List<Asset> getAllAssets(){
-        return assetRepository.findAll();
+        return assetRepository.findAllByQuantityGreaterThan(0.0);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class AssetServiceImpl implements AssetService{
 
     @Override
     public List<Asset> getAssetsByName(String name){
-        return assetRepository.findAllByNameContainingIgnoreCase(name);
+        return assetRepository.findAllByNameContainingIgnoreCaseAndQuantityGreaterThan(name, 0.0);
     }
 
     @Override

@@ -23,19 +23,19 @@ public class Transaction {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
-    private Long quantity;
-    private Double pricePerUnitInUSD;
+    private Double quantity;
+    private Double pricePerUnit;
 
     public Transaction() {
     }
 
-    public Transaction(Long id, TransactionType type, Asset asset, LocalDate date, Long quantity, Double pricePerUnitInUSD) {
+    public Transaction(Long id, TransactionType type, Asset asset, LocalDate date, Double quantity, Double pricePerUnit) {
         this.id = id;
         this.type = type;
         this.asset = asset;
         this.date = date;
         this.quantity = quantity;
-        this.pricePerUnitInUSD = pricePerUnitInUSD;
+        this.pricePerUnit = pricePerUnit;
     }
 
     public Long getId() {
@@ -70,19 +70,19 @@ public class Transaction {
         this.date = date;
     }
 
-    public Long getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
-        return pricePerUnitInUSD;
+    public Double getPricePerUnit() {
+        return pricePerUnit;
     }
 
-    public void setPrice(Double pricePerUnitInUSD) {
-        this.pricePerUnitInUSD = pricePerUnitInUSD;
+    public void setPricePerUnit(Double pricePerUnit) {
+        this.pricePerUnit = pricePerUnit;
     }
 }
