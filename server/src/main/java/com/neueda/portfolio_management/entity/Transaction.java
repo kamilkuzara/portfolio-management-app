@@ -1,8 +1,12 @@
 package com.neueda.portfolio_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.neueda.portfolio_management.converter.TransactionTypeConverter;
 import com.neueda.portfolio_management.enums.TransactionType;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Entity
 public class Transaction {
@@ -17,14 +21,15 @@ public class Transaction {
     @JoinColumn(name = "asset", nullable = false)
     private Asset asset;
 
-    private String date;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
     private Long quantity;
     private Double pricePerUnitInUSD;
 
     public Transaction() {
     }
 
-    public Transaction(Long id, TransactionType type, Asset asset, String date, Long quantity, Double pricePerUnitInUSD) {
+    public Transaction(Long id, TransactionType type, Asset asset, LocalDate date, Long quantity, Double pricePerUnitInUSD) {
         this.id = id;
         this.type = type;
         this.asset = asset;
@@ -57,11 +62,11 @@ public class Transaction {
         this.asset = asset;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

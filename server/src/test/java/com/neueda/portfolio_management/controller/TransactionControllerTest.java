@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -32,8 +33,8 @@ public class TransactionControllerTest {
 
     @Test
     public void getAllTransactions_returnsList() throws Exception {
-        Transaction t1 = new Transaction(1L, TransactionType.values()[0], new Asset(), "2023-01-01", 10L, 5.0);
-        Transaction t2 = new Transaction(2L, TransactionType.values()[0], new Asset(), "2023-01-02", 20L, 6.0);
+        Transaction t1 = new Transaction(1L, TransactionType.values()[0], new Asset(), LocalDate.of(2023, 1, 1), 10L, 5.0);
+        Transaction t2 = new Transaction(2L, TransactionType.values()[0], new Asset(), LocalDate.of(2023, 1, 2), 20L, 6.0);
 
         when(transactionService.getAllTransactions()).thenReturn(Arrays.asList(t1, t2));
 
@@ -48,7 +49,7 @@ public class TransactionControllerTest {
     @Test
     public void getAllTransactionsByAsset_callsServiceWithParam() throws Exception {
         String assetName = "ETH";
-        Transaction t = new Transaction(3L, TransactionType.values()[0], new Asset(), "2023-01-03", 5L, 1.2);
+        Transaction t = new Transaction(3L, TransactionType.values()[0], new Asset(), LocalDate.of(2023, 1, 3), 5L, 1.2);
         when(transactionService.getTransactionsByAsset(assetName)).thenReturn(Arrays.asList(t));
 
         mockMvc.perform(get("/transactions").param("asset", assetName).accept(MediaType.APPLICATION_JSON))
@@ -62,7 +63,7 @@ public class TransactionControllerTest {
     @Test
     public void getAllTransactions_returnsDetailedJson() throws Exception {
         Asset asset = new Asset(11L, "BTC", "crypto", 150.5);
-        Transaction tx = new Transaction(10L, TransactionType.values()[0], asset, "2023-02-02", 50L, 1234.5);
+        Transaction tx = new Transaction(10L, TransactionType.values()[0], asset, LocalDate.of(2023, 2, 2), 50L, 1234.5);
         when(transactionService.getAllTransactions()).thenReturn(Arrays.asList(tx));
 
         mockMvc.perform(get("/transactions").accept(MediaType.APPLICATION_JSON))
