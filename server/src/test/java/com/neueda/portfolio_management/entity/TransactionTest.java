@@ -13,13 +13,13 @@ public class TransactionTest {
     @Test
     public void constructorAndGetters_shouldReturnValues() {
         Asset asset = new Asset(); // ...existing code... (use default constructor from project)
-        Transaction tx = new Transaction(1L, TransactionType.values()[0], asset, LocalDate.parse("2023-01-01"), 100L, 12.34);
+        Transaction tx = new Transaction(1L, TransactionType.values()[0], asset, LocalDate.parse("2023-01-01"), 100.0, 12.34);
 
         assertEquals(1L, tx.getId());
         assertEquals(TransactionType.values()[0], tx.getType());
         assertSame(asset, tx.getAsset());
         assertEquals(LocalDate.parse("2023-01-01"), tx.getDate());
-        assertEquals(100L, tx.getQuantity());
+        assertEquals(100.0, tx.getQuantity());
         // use reflection because the public getter/setter for price may not exist in the entity
         assertEquals(Double.valueOf(12.34), getPrice(tx));
     }
@@ -42,36 +42,36 @@ public class TransactionTest {
         tx.setDate(LocalDate.parse("2020-12-31"));
         assertEquals(LocalDate.parse("2020-12-31"), tx.getDate());
 
-        tx.setQuantity(250L);
-        assertEquals(250L, tx.getQuantity());
+        tx.setQuantity(250.0);
+        assertEquals(250.0, tx.getQuantity());
 
         // use reflection to set and read pricePerUnitInUSD because setters/getters may be absent
         setPrice(tx, Double.valueOf(99.99));
         assertEquals(Double.valueOf(99.99), getPrice(tx));
     }
 
-    // Reflection helpers to read/write the private pricePerUnitInUSD field reliably
+    // Reflection helpers to read/write the private pricePerUnit field reliably
     private static Double getPrice(Transaction tx) {
         try {
-            Field f = Transaction.class.getDeclaredField("pricePerUnitInUSD");
+            Field f = Transaction.class.getDeclaredField("pricePerUnit");
             f.setAccessible(true);
             return (Double) f.get(tx);
         } catch (NoSuchFieldException nsf) {
-            throw new AssertionError("Field pricePerUnitInUSD not found on Transaction", nsf);
+            throw new AssertionError("Field pricePerUnit not found on Transaction", nsf);
         } catch (IllegalAccessException iae) {
-            throw new AssertionError("Unable to access pricePerUnitInUSD", iae);
+            throw new AssertionError("Unable to access pricePerUnit", iae);
         }
     }
 
     private static void setPrice(Transaction tx, Double value) {
         try {
-            Field f = Transaction.class.getDeclaredField("pricePerUnitInUSD");
+            Field f = Transaction.class.getDeclaredField("pricePerUnit");
             f.setAccessible(true);
             f.set(tx, value);
         } catch (NoSuchFieldException nsf) {
-            throw new AssertionError("Field pricePerUnitInUSD not found on Transaction", nsf);
+            throw new AssertionError("Field pricePerUnit not found on Transaction", nsf);
         } catch (IllegalAccessException iae) {
-            throw new AssertionError("Unable to access pricePerUnitInUSD", iae);
+            throw new AssertionError("Unable to access pricePerUnit", iae);
         }
     }
 }
